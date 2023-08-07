@@ -1,4 +1,4 @@
-#!/home/guillem/python/test/venv/bin/python
+#!/home/guillem/python/enbitbot/venv/bin/python
 from ethereum import *
 from telegram import *
 from system import *
@@ -68,14 +68,15 @@ if __name__ == "__main__":
         set_max_percent(percent)
     diferencia=max_percent-percent
     if diferencia > 2:
-        send_message(f"la cosa baixa <{diferencia}% ")
+        send_message(f"la cosa baixa {diferencia} ")
     print(percent,balanc_pdai,final)
     if percent>10 and not loaded_from_file > 0:
         send_message(f"BENEFICI {percent}")
-    if percent < -5 and not loaded_from_file>0:
+    if percent < -3 and not loaded_from_file>0:
         send_message(f"PERDUA {percent}")
     if percent < 5 and not loaded_from_file:
         send_message(f"ENTRA {percent}")
+    
 
 
     

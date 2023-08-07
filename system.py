@@ -2,13 +2,15 @@ import os
 
 import pickle
 
-
+path="/home/guillem/python/enbitbot"
+print(f"PATH::: {path}")
 def save_picke(file_name,value):
-    file=f"data/_{file_name}"
+    file=f"{path}/data/_{file_name}"
     pickle.dump(value,open(file,"wb"))
 
 def load_pickle(file_name):
-    file=f"data/_{file_name}"
+    file=f"{path}/data/_{file_name}"
+    print(file)
     if os.path.isfile(file):
         value_saved=pickle.load(open(file,"rb"))
         return value_saved
@@ -16,7 +18,7 @@ def load_pickle(file_name):
         return 0
     
 def is_pickle(file_name):
-    file=f"data/_{file_name}"
+    file=f"{path}/data/_{file_name}"
     return os.path.isfile(file)
 
 
