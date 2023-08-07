@@ -40,6 +40,8 @@ if __name__ == "__main__":
     print(f"test {test}")
     test=get_pair_price(address_cake,address_dai_bsc,w3_bsc,router_bsc,amount=10)
     print(f"test {test}")
+    test=get_pair_price(address_wbnb,address_dai_bsc,w3_bsc,router_bsc,amount=1)
+    print(f"test {test}")
 
 
 
