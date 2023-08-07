@@ -32,6 +32,8 @@ w3_polygon=Web3(HTTPProvider(RPC_POLYGON))
 TELEGRAM_TOKEN=config("TELEGRAM_TOKEN")
 CID_CANAL_TESTS=config("CID_CANAL_TESTS")
 
+TELEGRAM_ENBITBOT=config("TELEGRAM_ENBITBOT")
+
 address_airdrops=config("address_airdrops")
 pk_mainnet=config("pk_mainnet")
 address_brave=config("address_brave")

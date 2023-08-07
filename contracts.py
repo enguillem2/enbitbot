@@ -16,6 +16,30 @@ contract_WPulse="0xA1077a294dDE1B09bB078844df40758a5D0f9a27"
 contract_dai_pls="0xefD766cCb38EaF1dfd701853BFCe31359239F305"
 contract_wbtc_pls="0xb17D901469B9208B17d916112988A3FeD19b5cA1"
 contract_pdai="0x6B175474E89094C44Da98b954EedeAC495271d0F"
+contract_inc="0x2fa878Ab3F87CC1C9737Fc071108F904c0B0C95d"
+
+tokens_trade_pls=[
+    {
+        "tiker":"PLSX",
+        "tk":"PLSX",
+        "address":contract_plsx
+    },
+    {
+        "tiker":"wPLS",
+        "tk":"wPLS",
+        "address":contract_WPulse
+    },
+    {
+        "tiker":"pDAI",
+        "tk":"pDAI",
+        "address":contract_pdai
+    },
+    {
+        "tiker":"INC",
+        "tk":"INC",
+        "address":contract_inc
+    }
+]
 
 router_address_pulse="0x98bf93ebf5c380C0e6Ae8e192A7e2AE08edAcc02"
 router_pulsev2="0x165C3410fC91EF562C50559f7d2289fEbed552d9"
