@@ -9,10 +9,11 @@ enbitbot=telebot.TeleBot(TELEGRAM_ENBITBOT)
 
 @enbitbot.message_handler(commands=['percent'])
 def cmp_percent(message):
-    max_percent=get_max_percent()
-    print(f"{max_percent} percent")
-    msg="<b>MAX PERCENT:</b>"+"\n"
-    msg+=str(max_percent)+"\n"
+    msg="<b>PERCENT:</b>"+"\n"
+    info=calculate_trade("INC","PLSX",True)
+    msg+=info+"\n"
+    info=calculate_trade("pDAI","PLSX",True)
+    msg+=info+"\n"
     enbitbot.reply_to(message,msg,parse_mode="html")
 
 @enbitbot.message_handler(commands=['setmax'])

@@ -24,7 +24,7 @@ def getAdressFromTiker(tiker):
         if token["tiker"]==tiker:
             return token["address"]
 
-def calculate_trade(tiker_from,tiker_to):
+def calculate_trade(tiker_from,tiker_to,send_msg=False):
     print(tiker_from,tiker_to)
     msg=f"{tiker_from}_{tiker_to}\n"
     address_from=getAdressFromTiker(tiker_from)
@@ -65,6 +65,10 @@ def calculate_trade(tiker_from,tiker_to):
     if percent > -7 and percent < 5 and not loaded_from_file:
         msg+=f"RANG BAIX {percent}"
         send_message(msg)
+
+    if send_message:
+        return msg+f"percent: {percent}"
+    return ""
 
 
 
