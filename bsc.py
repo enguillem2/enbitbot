@@ -1,4 +1,5 @@
 from config import *
+from contracts_bsc import *
 from ethereum import *
 
 def send_amount(w3=w3_bsc_testnet):
@@ -32,9 +33,13 @@ def send_amount(w3=w3_bsc_testnet):
     print(w3.to_hex(sent_tx))
 
 if __name__ == "__main__":
-    balance=get_balance(address_airdrops,w3_bsc_testnet)
-    print(address_airdrops,balance)
-    send_amount()
+    # balance=get_balance(address_airdrops,w3_bsc_testnet)
+    # print(address_airdrops,balance)
+    # send_amount()
+    test=get_pair_price(address_btcb,address_dai_bsc,w3_bsc,router_bsc)
+    print(f"test {test}")
+    test=get_pair_price(address_cake,address_dai_bsc,w3_bsc,router_bsc,amount=10)
+    print(f"test {test}")
 
 
 
