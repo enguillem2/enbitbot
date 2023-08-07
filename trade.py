@@ -48,15 +48,17 @@ def calculate_trade(tiker_from,tiker_to):
     max_percent=get_max_percent(tiker_from,tiker_to)
     print(f"max_percent {max_percent} percent {percent}")
     if percent > (max_percent+2):
-        
-        send_message(f"la cosa puja {percent}")
+        msg+=f"la cosa puja {percent}"
+        send_message(msg)
         set_max_percent(percent,tiker_from,tiker_to)
     diferencia=max_percent-percent
     if diferencia > 2:
-        send_message(f"la cosa baixa {percent} ")
+        msg+=f"la cosa baixa {percent}"
+        send_message(msg)
     print(percent,balance_from,final)
     if percent>10 and not loaded_from_file > 0:
-        send_message(f"BENEFICI {percent}")
+        msg+=f"BENEFICI {percent}"
+        send_message(msg)
     # if percent < -3 and not loaded_from_file>0:
     #     msg+=f"PERDUA {percent}"
     #     send_message(msg)
