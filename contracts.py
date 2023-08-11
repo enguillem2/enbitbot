@@ -17,6 +17,7 @@ contract_dai_pls="0xefD766cCb38EaF1dfd701853BFCe31359239F305"
 contract_wbtc_pls="0xb17D901469B9208B17d916112988A3FeD19b5cA1"
 contract_pdai="0x6B175474E89094C44Da98b954EedeAC495271d0F"
 contract_inc="0x2fa878Ab3F87CC1C9737Fc071108F904c0B0C95d"
+contract_hex="0x2b591e99afE9f32eAA6214f7B7629768c40Eeb39"
 
 tokens_trade_pls=[
     {
@@ -38,6 +39,16 @@ tokens_trade_pls=[
         "tiker":"INC",
         "tk":"INC",
         "address":contract_inc
+    },
+    {
+        "tiker":"HEX",
+        "tk":"HEX",
+        "address":contract_hex
+    },
+    {
+        "tiker":"DAI",
+        "tk":"DAI",
+        "address":contract_dai_pls
     }
 ]
 
