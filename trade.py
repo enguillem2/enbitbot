@@ -34,7 +34,7 @@ def calculate_trade(tiker_from,tiker_to,send_msg=False):
     balance_from=int(get_token_balance(address_from,address_brave))
     price=get_pair_price(address_from,address_to,amount=1)
     # print(balance_from,price["price"],balance_from*price["price"])
-    cuantitat_inicial=10
+    cuantitat_inicial=load_pickle(f"quantitat_inicial_{tiker_from}_{tiker_to}")
     loaded_from_file=False
     if balance_from==0:
         balance_from=load_pickle(f"quantitat_{tiker_from}_{tiker_to}")
