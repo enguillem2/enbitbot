@@ -10,7 +10,7 @@ enbitbot=telebot.TeleBot(TELEGRAM_ENBITBOT)
 @enbitbot.message_handler(commands=['percent'])
 def cmp_percent(message):
     msg="<b>PERCENT:</b>"+"\n"
-    info=calculate_trade("HEX","DAI",True)
+    info=calculate_trade("pDAI","DAI",True)
     msg+=info+"\n"
     enbitbot.reply_to(message,msg,parse_mode="html")
 

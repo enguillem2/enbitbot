@@ -37,3 +37,5 @@ TELEGRAM_ENBITBOT=config("TELEGRAM_ENBITBOT")
 address_airdrops=config("address_airdrops")
 pk_mainnet=config("pk_mainnet")
 address_brave=config("address_brave")
+
+key_cmc=config("COINMARKETCAP_API_KEY")
