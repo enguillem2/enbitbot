@@ -5,6 +5,7 @@ if __name__ == "__main__":
     # calculate_trade("INC","PLSX")
     # calculate_trade("pDAI","PLSX")
     calculate_trade("pDAI","DAI")
+    # calculate_trade("FEW","DAI")
 
 
     

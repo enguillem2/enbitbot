@@ -49,6 +49,11 @@ tokens_trade_pls=[
         "tiker":"DAI",
         "tk":"DAI",
         "address":contract_dai_pls
+    },
+    {
+        "tiker":"FEW",
+        "tk":"FEW",
+        "address":"0x14822E54193075F78eC0c214f0F893096D53806F"
     }
 ]
 

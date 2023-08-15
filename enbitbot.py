@@ -12,6 +12,8 @@ def cmp_percent(message):
     msg="<b>PERCENT:</b>"+"\n"
     info=calculate_trade("pDAI","DAI",True)
     msg+=info+"\n"
+    # info=calculate_trade("FEW","DAI",True)
+    # msg+=info+"\n"
     enbitbot.reply_to(message,msg,parse_mode="html")
 
 @enbitbot.message_handler(commands=['trak'])
