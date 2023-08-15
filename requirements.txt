@@ -1,3 +1,4 @@
 web3
 python-decouple
 telebot
+trading-strategy[direct-feed]
