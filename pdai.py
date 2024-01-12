@@ -31,6 +31,7 @@ def convert(num):
 
     # Send transaction
     sent_tx = w3_pulse.eth.send_raw_transaction(tx_signed.rawTransaction)
+    w3_pulse.eth.wait_for_transaction_receipt(sent_tx)
     print("tx_hash",w3_pulse.to_hex(sent_tx))
 
 if __name__ == "__main__":
