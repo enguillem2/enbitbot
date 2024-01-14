@@ -27,8 +27,11 @@ def handle_event(event):
         # print(to)
         if to == router:
             print("v1",to)
+            print("Transaction",transaction)
         if to == router_v2:
             print("v2",to)
+            print("Transaction",transaction)
+
 
     except Exception as err:
         # print transactions with errors. Expect to see transactions people submitted with errors 
