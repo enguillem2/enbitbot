@@ -2,6 +2,8 @@ from decouple import config
 from web3 import Web3, HTTPProvider
 
 RPC_ETHEREUM=config("RPC_ETHEREUM")
+print("###################################")
+print(RPC_ETHEREUM)
 RPC_GOERLI=config("RPC_GOERLI")
 
 RPC_PULSE=config("RPC_PULSE")
