@@ -70,3 +70,45 @@ uniswap_factory="0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f"
 
 bridge_pulsechain="0x1715a3E4A142d8b698131108995174F37aEBA10D"
 dai_ethereum="0x6B175474E89094C44Da98b954EedeAC495271d0F"
+
+tokens_bridge=[
+    {
+        "tiker":"DAI",
+        "contract":dai_ethereum,
+        "have_to_get_value":0,
+        "have_to_invert_value":0
+    },
+    {
+        "tiker":"HEX",
+        "contract":contract_hex,
+        "have_to_get_value":1,
+        "have_to_invert_value":0
+    },
+    {
+        "tiker":"USDT",
+        "contract":usdt_eth,
+        "have_to_get_value":0,
+        "have_to_invert_value":0
+    },
+    {
+        "tiker":"USDC",
+        "contract":contract_pUSDC,
+        "have_to_get_value":0,
+        "have_to_invert_value":0
+    },
+    {
+        "tiker":"WETH",
+        "contract":weth_ethereum,
+        "have_to_get_value":1,
+        "have_to_invert_value":0
+    },
+    {
+        "tiker":"WBTC",
+        "contract":contract_wbtc_eth,
+        "have_to_get_value":1,
+        "have_to_invert_value":1
+    },
+    
+    
+    
+]

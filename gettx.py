@@ -42,57 +42,44 @@ def getTransactions(start, end, address):
                 f.close()
     print(f"Finished searching blocks {start} through {end} and found {len(tx_dictionary)} transactions")
     
+def get_bridge_value(list_tokens):
+    result=[]
+    for token in list_tokens:
+        token_result={}
+        balance=get_token_balance(token["contract"], bridge_pulsechain,provider=w3_ethereum)
+        price=1
+        if token["have_to_get_value"]==1 and token["have_to_invert_value"]==0:
+            pair_price=get_pair_price(token["contract"],dai_ethereum,provider=w3_ethereum,router_address=router_v2,amount=1)
+            price=pair_price["price"]
+        if token["have_to_get_value"]==1 and token["have_to_invert_value"]==1:
+            price_inverted=get_pair_price(dai_ethereum,token["contract"],provider=w3_ethereum,router_address=router_v2,amount=1)
+            price=1/price_inverted["price"]
+            print(token["contract"])
+            print(f"price_inverted {price_inverted} price {price}")
+            # value_btc=bal_wbtc * price_wbtc
+            
+        value_token=balance*price
+        token_result["tiker"]=token["tiker"]
+        token_result["balance"]=balance
+        token_result["price"]=price
+        token_result["value"]=value_token
+        result.append(token_result)
+
+    return result
+
+
 
 
 if __name__ == "__main__":
     #getTransactions(starting_blocknumber, ending_blocknumber, blockchain_address)
     total=0
 
-    #dai in bridge
-    bal_dai=get_token_balance(dai_ethereum, bridge_pulsechain,provider=w3_ethereum)
-    total+=bal_dai
-
-    #hex in bridge
-    bal_hex = get_token_balance(contract_hex,bridge_pulsechain,provider=w3_ethereum)
-    price_hex=get_pair_price(contract_hex,dai_ethereum,provider=w3_ethereum,router_address=router_v2,amount=1)
-    value_hex = bal_hex * price_hex["price"]
-    total+=value_hex
-
-    #usdc in bridge
-    bal_usdc=get_token_balance(contract_pUSDC,bridge_pulsechain,provider=w3_ethereum)
-    total+=bal_usdc
-
-    #weth in bridge
-    bal_weth=get_token_balance(weth_ethereum,bridge_pulsechain,provider=w3_ethereum)
-    price_weth=get_pair_price(weth_ethereum,dai_ethereum,provider=w3_ethereum,router_address=router_v2,amount=1)
-    price_weth=get_pair_price(weth_ethereum,dai_ethereum,provider=w3_ethereum,router_address=router_v2,amount=1)
-
-    value_weth=bal_weth*price_weth["price"]
-    total+=value_weth
-
-    #wbtc in bridge
-    bal_wbtc=get_token_balance(contract_wbtc_eth,bridge_pulsechain,provider=w3_ethereum)
-    price_wbtc=get_pair_price(contract_wbtc_eth,dai_ethereum,provider=w3_ethereum,router_address=router_v2,amount=1)
-    price_dai_wbtc=get_pair_price(dai_ethereum,contract_wbtc_eth,provider=w3_ethereum,router_address=router_v2,amount=1)
-    price_wbtc=1/price_dai_wbtc["price"]
-    value_btc=bal_wbtc * price_wbtc
-    total+=value_btc
-
-
-    #usdt in bridge
-    bal_usdt=get_token_balance(usdt_eth,bridge_pulsechain,provider=w3_ethereum)
-
-    print(f"balance dai: {bal_dai:,.2f}")
-    print(f"balance hex {bal_hex:,.2f} value: {value_hex:,.2f}")
-    print(f"balance usdc: {bal_usdc:,.2f}")
-
-    print(f"balance hex {bal_weth:,.2f} value: {value_weth:,.2f}")
-    print(f"balance usdt: {bal_usdt:,.2f}")
-
-    print(f"balance wbtc {bal_wbtc:,.2f} value: {value_btc:,.2f}")
-
-    total=bal_dai+value_hex+bal_usdc+value_weth+bal_usdt+value_btc
+    tokens=get_bridge_value(tokens_bridge)
+    for token in tokens:
+        print(f'{token["tiker"]}: {token["value"]:,.2f}')
+        total+=token["value"]
     print(f"TOTAL: {total:,.2f}")
+    
 
 
 
