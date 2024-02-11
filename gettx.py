@@ -9,6 +9,7 @@ from web3 import Web3, HTTPProvider
 # # instantiate a web3 remote provider
 # # w3 = Web3(HTTPProvider('YOUR_QUICKNODE_HTTP_ENDPOINT'))
 # w3 = w3_ethereum
+w3 = w3_pulse
 
 # # request the latest block number
 # ending_blocknumber = w3.eth.block_number
@@ -45,6 +46,7 @@ def getTransactions(start, end, address):
 def get_bridge_value(list_tokens):
     result=[]
     for token in list_tokens:
+        print(f"token {token}")
         token_result={}
         balance=get_token_balance(token["contract"], bridge_pulsechain,provider=w3_ethereum)
         price=1

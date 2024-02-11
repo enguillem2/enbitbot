@@ -67,14 +67,17 @@ router_pulsev2="0x165C3410fC91EF562C50559f7d2289fEbed552d9"
 pulse_factoryv2="0x29eA7545DEf87022BAdc76323F373EA1e707C523"
 
 uniswap_factory="0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f"
+uniswap_router = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
+
 
 bridge_pulsechain="0x1715a3E4A142d8b698131108995174F37aEBA10D"
-dai_ethereum="0x6B175474E89094C44Da98b954EedeAC495271d0F"
+dai_ethereum="0xefD766cCb38EaF1dfd701853BFCe31359239F305"
+
 
 tokens_bridge=[
     {
         "tiker":"DAI",
-        "contract":dai_ethereum,
+        "contract":contract_pdai,
         "have_to_get_value":0,
         "have_to_invert_value":0
     },
@@ -108,7 +111,4 @@ tokens_bridge=[
         "have_to_get_value":1,
         "have_to_invert_value":1
     },
-    
-    
-    
 ]
