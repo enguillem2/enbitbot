@@ -7,8 +7,8 @@ def structure_trading_pairs(pairs,limit=100):
 
     for pair_a in pairs_list:
         #get first pair (A)
-        a_base=pair_a["token0"]["symbol"]
-        a_quote=pair_a["token1"]["symbol"]
+        a_base=f'{pair_a["token0"]["symbol"]}{pair_a["token0"]["id"]}'
+        a_quote=f'{pair_a["token1"]["symbol"]}{pair_a["token1"]["id"]}'
         a_pair =f"{a_base}_{a_quote}"
         a_token_0_id = pair_a["token0"]["id"]
         a_token_1_id = pair_a["token1"]["id"]
@@ -27,8 +27,8 @@ def structure_trading_pairs(pairs,limit=100):
 
         #Get second pair (B)
         for pair_b in pairs_list:
-            b_base=pair_b["token0"]["symbol"]
-            b_quote=pair_b["token1"]["symbol"]
+            b_base=f'{pair_b["token0"]["symbol"]}{pair_b["token0"]["id"]}'
+            b_quote=f'{pair_b["token1"]["symbol"]}{pair_b["token1"]["id"]}'
             b_pair =f"{b_base}_{b_quote}"
             b_token_0_id = pair_b["token0"]["id"]
             b_token_1_id = pair_b["token1"]["id"]
@@ -47,8 +47,8 @@ def structure_trading_pairs(pairs,limit=100):
                 if b_base in a_pair_box or b_quote in a_pair_box:
                     #get third pair (C)
                     for pair_c in pairs_list:
-                        c_base=pair_c["token0"]["symbol"]
-                        c_quote=pair_c["token1"]["symbol"]
+                        c_base=f'{pair_c["token0"]["symbol"]}{pair_c["token0"]["id"]}'
+                        c_quote=f'{pair_c["token1"]["symbol"]}{pair_c["token1"]["id"]}'
                         c_pair =f"{c_base}_{c_quote}"
                         c_token_0_id = pair_c["token0"]["id"]
                         c_token_1_id = pair_c["token1"]["id"]
@@ -144,7 +144,6 @@ def calc_triangular_arb_surface_rate(t_pair,min_rate):
         b_quote = t_pair["bQuote"]
         c_base = t_pair["cBase"]
         c_quote = t_pair["cQuote"]
-        print(f"{a_base}")
 
         # Set price info
         a_token_0_price = float(t_pair["aToken0Price"])

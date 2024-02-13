@@ -14,7 +14,7 @@ def retriev_pulsex_information():
     query="""
 
         {
-  pairs (orderBy: reserveUSD orderDirection:desc first:500) {
+  pairs (orderBy: reserveUSD orderDirection:desc first:1000) {
     id
     reserveUSD
     reserve0
@@ -84,6 +84,7 @@ def conect_to_uniswap(load_from_blockchain=True):
 
 def conect_to_pulsex(load_from_blockchain=True):
     structured_pairs=[]
+    file_name="pkl/structured_pairs_pulse.pkl"
     if load_from_blockchain:
         pairs=retriev_pulsex_information()
         # print(pairs)
@@ -93,16 +94,17 @@ def conect_to_pulsex(load_from_blockchain=True):
         print(f"pairs: {len(the_pairs)}")
         # print(the_pairs[0])
         structured_pairs=structure_trading_pairs(the_pairs,limit=the_limit)
-        with open("pkl/structured_pairs_pls.pkl", "wb") as f:
+        with open(f"{file_name}", "wb") as f:
             pickle.dump(structured_pairs, f)
     else:
         #load from pickle
-        structured_pairs = pickle.load( open("pkl/structured_pairs_pls.pkl", "rb" ))
+        structured_pairs = pickle.load( open(f"{file_name}", "rb" ))
 
     print(len(structured_pairs))
+    print(structured_pairs[0])
     
     for t_pair in structured_pairs:
-        surf_rate=calc_triangular_arb_surface_rate(t_pair,min_rate=1.5)
+        surf_rate=calc_triangular_arb_surface_rate(t_pair,min_rate=200)
         print(f"{surf_rate} ")
 
 
@@ -113,4 +115,4 @@ def conect_to_pulsex(load_from_blockchain=True):
 
 if __name__ == "__main__":
     # conect_to_uniswap(load_from_blockchain=False)
-    conect_to_pulsex(load_from_blockchain=True)
+    conect_to_pulsex(load_from_blockchain=False)

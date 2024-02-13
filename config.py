@@ -16,6 +16,9 @@ RPC_ZKSYNC=config("RPC_ZKSYNC")
 
 RPC_POLYGON=config("RPC_POLYGON")
 
+library_path=config("ZK_SYNC_LIBRARY_PATH")
+
+
 w3_ethereum=Web3(HTTPProvider(RPC_ETHEREUM))
 w3_goerli=Web3(HTTPProvider(RPC_GOERLI))
 
