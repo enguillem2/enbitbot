@@ -222,8 +222,8 @@ def get_liquidity(pair):
 
 
 if __name__ == "__main__":
-    # get_all_pairs()
-    get_liquidity_2("0xDe6F2299b9791b7F4FE7f2edCF4cFA17fadf4CEC")
+    get_all_pairs()
+    # get_liquidity_2("0xDe6F2299b9791b7F4FE7f2edCF4cFA17fadf4CEC")
     #are_new_pairs()
     # get_reserves()
 

@@ -4,17 +4,18 @@ import json
 from func_triangular_arg import structure_trading_pairs,calc_triangular_arb_surface_rate
 from pulsexread import get_all_pairs
 import pickle
-
+import time
+import os
 
 def retriev_pulsex_w3():
     pairs=get_all_pairs()
     print(f"len paris {len(pairs)}")
 
-def retriev_pulsex_information():
+def retriev_pulsex_information(n):
     query="""
 
         {
-  pairs (orderBy: reserveUSD orderDirection:desc first:1000) {
+  pairs (orderBy: reserveUSD orderDirection:desc first:"""+str(n)+""") {
     id
     reserveUSD
     reserve0
@@ -82,11 +83,12 @@ def conect_to_uniswap(load_from_blockchain=True):
     for t_pair in structured_pairs:
         calc_triangular_arb_surface_rate(t_pair)
 
-def conect_to_pulsex(load_from_blockchain=True):
+def conect_to_pulsex(load_from_blockchain=True,min_rate=1.5,num_pairs=500):
     structured_pairs=[]
     file_name="pkl/structured_pairs_pulse.pkl"
+    files=0
     if load_from_blockchain:
-        pairs=retriev_pulsex_information()
+        pairs=retriev_pulsex_information(num_pairs)
         # print(pairs)
         the_pairs=pairs["data"]["pairs"]
         print(the_pairs[0:2])
@@ -100,19 +102,29 @@ def conect_to_pulsex(load_from_blockchain=True):
         #load from pickle
         structured_pairs = pickle.load( open(f"{file_name}", "rb" ))
 
-    print(len(structured_pairs))
-    print(structured_pairs[0])
-    
+
+    # print(f"structured pairs {structured_pairs}")
+    surf_rate_list=[]    
     for t_pair in structured_pairs:
-        surf_rate=calc_triangular_arb_surface_rate(t_pair,min_rate=200)
-        print(f"{surf_rate} ")
+        print(t_pair)
+        surf_rate=calc_triangular_arb_surface_rate(t_pair,min_rate=min_rate)
+        
+        if len(surf_rate)>0:
+            surf_rate_list.append(surf_rate)
 
 
     # retriev_pulsex_w3()
-    # print(structured_pairs)
+    os.remove("json/pulsex_surface_rates.json")
+    if len(surf_rate_list)>0:
+        files=files+1
+        with open("json/"+files+"pulsex_surface_rates.json","w") as fp:
+            json.dump(surf_rate_list,fp)
+            print("file saved")
 
     
 
 if __name__ == "__main__":
     # conect_to_uniswap(load_from_blockchain=False)
-    conect_to_pulsex(load_from_blockchain=False)
+    while True:
+        conect_to_pulsex(load_from_blockchain=True,min_rate=1.5,num_pairs=1000)
+        time.sleep(60)
