@@ -83,10 +83,17 @@ def conect_to_uniswap(load_from_blockchain=True):
     for t_pair in structured_pairs:
         calc_triangular_arb_surface_rate(t_pair)
 
+
+
+files=2
+if os.path.isfile("pkl/files.pkl"):
+    files=pickle.load( open(f"pkl/files.pkl", "rb" ))
+if files==10:
+    files=1
+
 def conect_to_pulsex(load_from_blockchain=True,min_rate=1.5,num_pairs=500):
     structured_pairs=[]
     file_name="pkl/structured_pairs_pulse.pkl"
-    files=0
     if load_from_blockchain:
         pairs=retriev_pulsex_information(num_pairs)
         # print(pairs)
@@ -114,10 +121,11 @@ def conect_to_pulsex(load_from_blockchain=True,min_rate=1.5,num_pairs=500):
 
 
     # retriev_pulsex_w3()
-    os.remove("json/pulsex_surface_rates.json")
     if len(surf_rate_list)>0:
         files=files+1
-        with open("json/"+files+"pulsex_surface_rates.json","w") as fp:
+        with open(f"pkl/files.pkl", "wb") as f:
+            pickle.dump(files, f)
+        with open("json/"+str(files)+"pulsex_surface_rates.json","w") as fp:
             json.dump(surf_rate_list,fp)
             print("file saved")
 
