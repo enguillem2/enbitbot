@@ -19,9 +19,17 @@ const address = '0x54f667dB585b7B10347429C72c36c8B59aB441cb'
 
 const TestContract = new web3.eth.Contract(abi,address)
 
+
 async function getWeb3Detalis(){
     let tokenName = await TestContract.methods.name().call()
-    console.log(tokenName)
+    let symbol = await TestContract.methods.symbol().call()
+    let decimals = await TestContract.methods.decimals().call()
+    decimals=Number(decimals)
+    let balanceOf = await TestContract.methods.balanceOf("0xD1aAA07dD40d5796CDF73bFb41a96ac38d3Db339").call()
+    let factor= Math.pow(10,decimals)
+    balanceOf = Number(balanceOf)  /  factor
+    console.log(tokenName,symbol,decimals)
+    console.log("balance: ",balanceOf)
 }
 
 getWeb3Detalis()
