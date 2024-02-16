@@ -6,6 +6,17 @@ from pulsexread import get_all_pairs
 import pickle
 import time
 import os
+import argparse
+
+def get_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-n","--network",dest="network",help="Network to connect")
+    options = parser.parse_args()
+
+    if not options.network:
+        parser.error("[-] Please especify a networ, use --help for info")
+
+    return options
 
 def retriev_pulsex_w3():
     pairs=get_all_pairs()
@@ -149,7 +160,14 @@ def conect_to_pulsex(load_from_blockchain=True,min_rate=1.5,num_pairs=500):
     
 
 if __name__ == "__main__":
+    options=get_arguments()
+    network=options.network
     while True:
-        conect_to_uniswap(load_from_blockchain=True)
-        # conect_to_pulsex(load_from_blockchain=True,min_rate=1.5,num_pairs=1000)
+        if network=="ethereum":
+            conect_to_uniswap(load_from_blockchain=True)
+        elif network=="pulsechain":
+            conect_to_pulsex(load_from_blockchain=True,min_rate=1.5,num_pairs=1000)
+        else:
+            print(f"{network} no disponiblre")
+            exit(1)
         time.sleep(60)
