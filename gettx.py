@@ -52,6 +52,7 @@ def get_bridge_value(list_tokens):
         price=1
         if token["have_to_get_value"]==1 and token["have_to_invert_value"]==0:
             pair_price=get_pair_price(token["contract"],dai_ethereum,provider=w3_ethereum,router_address=router_v2,amount=1)
+            print("pair_price",pair_price,token["contract"])
             price=pair_price["price"]
         if token["have_to_get_value"]==1 and token["have_to_invert_value"]==1:
             price_inverted=get_pair_price(dai_ethereum,token["contract"],provider=w3_ethereum,router_address=router_v2,amount=1)

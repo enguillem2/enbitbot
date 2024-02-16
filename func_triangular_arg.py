@@ -8,6 +8,8 @@ def structure_trading_pairs(pairs,limit=100):
     for pair_a in pairs_list:
         #get first pair (A)
         a_base=f'{pair_a["token0"]["symbol"]}{pair_a["token0"]["id"]}'
+        a_base_net=f"{pair_a['token0']}"
+        a_quote_net=f"{pair_a['token1']}"
         a_quote=f'{pair_a["token1"]["symbol"]}{pair_a["token1"]["id"]}'
         a_pair =f"{a_base}_{a_quote}"
         a_token_0_id = pair_a["token0"]["id"]
@@ -29,6 +31,9 @@ def structure_trading_pairs(pairs,limit=100):
         for pair_b in pairs_list:
             b_base=f'{pair_b["token0"]["symbol"]}{pair_b["token0"]["id"]}'
             b_quote=f'{pair_b["token1"]["symbol"]}{pair_b["token1"]["id"]}'
+
+            b_base_net=f"{pair_b['token0']}"
+            b_quote_net=f"{pair_b['token1']}"
             b_pair =f"{b_base}_{b_quote}"
             b_token_0_id = pair_b["token0"]["id"]
             b_token_1_id = pair_b["token1"]["id"]
@@ -49,6 +54,9 @@ def structure_trading_pairs(pairs,limit=100):
                     for pair_c in pairs_list:
                         c_base=f'{pair_c["token0"]["symbol"]}{pair_c["token0"]["id"]}'
                         c_quote=f'{pair_c["token1"]["symbol"]}{pair_c["token1"]["id"]}'
+                        c_base_net=f"{pair_c['token0']}"
+                        c_quote_net=f"{pair_c['token1']}"
+
                         c_pair =f"{c_base}_{c_quote}"
                         c_token_0_id = pair_c["token0"]["id"]
                         c_token_1_id = pair_c["token1"]["id"]
@@ -85,6 +93,12 @@ def structure_trading_pairs(pairs,limit=100):
                                 #ouput pair
                                 if unique_string not in remove_duplicates_list:
                                     output_dict = {
+                                        "aBaseNet":a_base_net,
+                                        "aQuoteNet":a_quote_net,
+                                        "bBaseNet":b_base_net,
+                                        "bQuoteNet":b_quote_net,
+                                        "cBaseNet":c_base_net,
+                                        "cQuoteNet":c_quote_net,
                                         "aPair":a_pair,
                                         "aBase":a_base,
                                         "aQuote":a_quote,

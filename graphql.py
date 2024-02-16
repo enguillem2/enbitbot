@@ -49,7 +49,7 @@ def retrieve_uniswap_information():
         {
         pools(orderBy: totalValueLockedETH,
                     orderDirection: desc,
-                    first:500){
+                    first:1000){
                         id
                         totalValueLockedETH
                         token0Price
@@ -78,18 +78,30 @@ def conect_to_uniswap(load_from_blockchain=True):
     else:
         structured_pairs = pickle.load( open(f"pkl/{file_name}.pkl", "rb" ))
 
-    print(len(structured_pairs))
+    print("pairs",len(structured_pairs))
 
+    surf_rate_list=[]
     for t_pair in structured_pairs:
-        calc_triangular_arb_surface_rate(t_pair)
+        surf_rate=calc_triangular_arb_surface_rate(t_pair,min_rate=1.5)
+        if len(surf_rate)>0:
+            surf_rate_list.append(surf_rate)
+
+    if len(surf_rate_list)>0:
+        files=0
+        if os.path.isfile("pkl/uniswap_files.pkl"):
+            files=pickle.load( open(f"pkl/uniswap_files.pkl", "rb" ))
+            files=files+1
+        if files==10:
+            files=0
+        with open(f"pkl/uniswap_files.pkl", "wb") as f:
+            pickle.dump(files, f)
+        with open("json/"+str(files)+"uniswap_surface_rates.json","w") as fp:
+            json.dump(surf_rate_list,fp)
+            print("file saved")
 
 
 
-files=2
-if os.path.isfile("pkl/files.pkl"):
-    files=pickle.load( open(f"pkl/files.pkl", "rb" ))
-if files==10:
-    files=1
+
 
 def conect_to_pulsex(load_from_blockchain=True,min_rate=1.5,num_pairs=500):
     structured_pairs=[]
@@ -122,7 +134,12 @@ def conect_to_pulsex(load_from_blockchain=True,min_rate=1.5,num_pairs=500):
 
     # retriev_pulsex_w3()
     if len(surf_rate_list)>0:
-        files=files+1
+        files=0
+        if os.path.isfile("pkl/files.pkl"):
+            files=pickle.load( open(f"pkl/files.pkl", "rb" ))
+            files=files+1
+        if files==10:
+            files=0
         with open(f"pkl/files.pkl", "wb") as f:
             pickle.dump(files, f)
         with open("json/"+str(files)+"pulsex_surface_rates.json","w") as fp:
@@ -132,7 +149,7 @@ def conect_to_pulsex(load_from_blockchain=True,min_rate=1.5,num_pairs=500):
     
 
 if __name__ == "__main__":
-    # conect_to_uniswap(load_from_blockchain=False)
     while True:
-        conect_to_pulsex(load_from_blockchain=True,min_rate=1.5,num_pairs=1000)
+        conect_to_uniswap(load_from_blockchain=True)
+        # conect_to_pulsex(load_from_blockchain=True,min_rate=1.5,num_pairs=1000)
         time.sleep(60)
