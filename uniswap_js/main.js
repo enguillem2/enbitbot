@@ -7,6 +7,7 @@ const provider = new ethers.providers.JsonRpcProvider(rpc_pulse)
 
 const QuoterAbi = require('@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json').abi
 var fs = require('fs')
+const { getSystemErrorMap } = require("util")
 
 //read file //////////////////////
 function getFile(fPath){
@@ -33,35 +34,93 @@ const abiERC20 = [
   ]
 
 
-async function getPrice(factory,amountIn,tradeDirection){
+async function getPrice(factory,amIn,tradeDirection){
     
     const address = factory
+    
+    //get pool information
     const pairContract = new ethers.Contract(address,abiPair,provider)
     let token0 = await pairContract.token0()
     let token1 = await pairContract.token1()
     let fee = await pairContract.fee()
     
-    const token0Contract = new ethers.Contract(token0,abiERC20,provider)
-    let decimals0=await token0Contract.decimals()
-    let symbol0=await token0Contract.symbol()
+    let tokenInfoArray=[]
+    let addressArray=[token0,token1]
 
+    for (let i=0;i<addressArray.length;i++){
+        //get individual token information
+        const tokenContract = new ethers.Contract(addressArray[i],abiERC20,provider)
+        let decimals=await tokenContract.decimals()
+        let symbol=await tokenContract.symbol()
+        let name=await tokenContract.name()
+        let obj={
+            id: "token"+1,
+            tokenSymbol:symbol,
+            tokenName:name,
+            tokenDecimals:decimals,
+            tokenAddress:addressArray[i]
+        }
+        tokenInfoArray.push(obj)
+    }
+
+    //identify the correct as A and B
+    let inputTokenA=''
+    let inputDecimalsA=0
+    let inputTokenB=''
+    let inputDecimalsB=0
+    let factorA=0
+    let factorB=0
+    if (tradeDirection=="baseToQuote"){
+        inputTokenA=tokenInfoArray[0].tokenAddress
+        inputDecimalsA=tokenInfoArray[0].tokenDecimals
+        
+        inputTokenB=tokenInfoArray[1].tokenAddress
+        inputDecimalsB=tokenInfoArray[1].tokenDecimals
+    }
     
-    const token1Contract = new ethers.Contract(token1,abiERC20,provider)
-    let decimals1=await token1Contract.decimals()
-    let symbol1=await token1Contract.symbol()
+    if (tradeDirection=="quoteToBase"){
+        inputTokenA=tokenInfoArray[1].tokenAddress
+        inputDecimalsA=tokenInfoArray[1].tokenDecimals
+        
+        inputTokenB=tokenInfoArray[0].tokenAddress
+        inputDecimalsB=tokenInfoArray[0].tokenDecimals
+        console.log(inputDecimalsA,inputDecimalsB)
+    }
+    factorA = Math.pow(10,inputDecimalsA)
+    factorB = Math.pow(10,inputDecimalsB)
 
 
-    console.log("pair fee",fee)
-    console.log("token0",token0,"symbol0",symbol0,"decimals0",decimals0)
-    console.log("token1",token1,"symbol1",symbol1,"decimals1",decimals1)
+    //reformat Amount in
+    if(!isNaN(amIn)){amIn=amIn.toString()}
+    let amountIn = ethers.utils.parseUnits(amIn,inputDecimalsA).toString()
 
+    //get uniswap v3 quote
+    //https://docs.uniswap.org/contracts/v3/reference/deployments
+    const quoterAddress ="0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6"
+    const quoterContract=new ethers.Contract(quoterAddress,QuoterAbi,provider)
+    let quotedAmountOut=0
+    try{
+        quotedAmountOut= await quoterContract.callStatic.quoteExactInputSingle(
+            inputTokenA,
+            inputTokenB,
+            fee,
+            amountIn,
+            0
+        )
+        let outPutAmount= ethers.utils.formatUnits(quotedAmountOut,inputDecimalsB)
+        // console.log("outPutAmount",outPutAmount)
+        return outPutAmount
+
+    }catch(err){
+        console.log("err",err)
+    }
 }
 
 //get file
 async function getDepth(amountIn,limit){
     //get json surface rates
     console.log("reading surface informations")
-    let fileInfo = getFile("../json/3uniswap_surface_rates.json")
+    let fileInfo = getFile("../json/2uniswap_surface_rates.json")
     //5pulsex_surface_rates.json
     // let fileInfo = getFile("../json/5pulsex_surface_rates.json")
     fileJsonArray = JSON.parse(fileInfo)
@@ -80,8 +139,18 @@ async function getDepth(amountIn,limit){
 
         //trade 1
         console.log("chechikig trade 1")
+        let acquiredCoinT1=await getPrice(pair1ContractAdress,amountIn,trade1Direction)
+        console.log(amountIn,acquiredCoinT1)
 
-        let acquiredCoinDetailT1=await getPrice(pair1ContractAdress,amountIn,trade1Direction)
+        //trade 1
+        console.log("checking trade 2")
+        let acquiredCoinT2=await getPrice(pair2ContractAdress,acquiredCoinT1,trade2Direction)
+        console.log(acquiredCoinT1,acquiredCoinT2)
+
+        //trade 2
+        console.log("checking trade 3")
+        let acquiredCoinT3=await getPrice(pair3ContractAdress,acquiredCoinT2,trade3Direction)
+        console.log(acquiredCoinT2,acquiredCoinT3)
 
         
 
@@ -92,6 +161,6 @@ async function getDepth(amountIn,limit){
 
 }
 
-getDepth(amountIn=1,limit=1)
+getDepth(amountIn=1,limit=2)
 //data=getFile("../json/3uniswap_surface_rates.json")
 //console.log(data)
