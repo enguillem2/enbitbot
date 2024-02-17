@@ -52,6 +52,7 @@ async function getPrice(factory,amIn,tradeDirection){
     }catch(err){
         return 0
     }
+    console.log("fee",fee)
     for (let i=0;i<addressArray.length;i++){
         //get individual token information
         const tokenContract = new ethers.Contract(addressArray[i],abiERC20,provider)
@@ -124,7 +125,7 @@ async function getPrice(factory,amIn,tradeDirection){
 async function getDepth(amountIn,limit){
     //get json surface rates
     console.log("reading surface informations")
-    let fileInfo = getFile("../json/3uniswap_surface_rates.json")
+    let fileInfo = getFile("../json/ethereum/3uniswap_surface_rates.json")
     //5pulsex_surface_rates.json
     // let fileInfo = getFile("../json/5pulsex_surface_rates.json")
     fileJsonArray = JSON.parse(fileInfo)
@@ -143,6 +144,7 @@ async function getDepth(amountIn,limit){
 
         //trade 1
         console.log("chechikig trade 1")
+        console.log(pair1ContractAdress)
         let acquiredCoinT1=await getPrice(pair1ContractAdress,amountIn,trade1Direction)
 
         if (acquiredCoinT1!=0){
@@ -170,6 +172,10 @@ async function getDepth(amountIn,limit){
 
 }
 
-getDepth(amountIn=1,limit=30)
+// print process.argv
+var args = process.argv.slice(2);
+console.log(args)
+
+getDepth(amountIn=1,limit=1)
 //data=getFile("../json/3uniswap_surface_rates.json")
 //console.log(data)

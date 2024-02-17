@@ -106,7 +106,7 @@ def conect_to_uniswap(load_from_blockchain=True):
             files=0
         with open(f"pkl/uniswap_files.pkl", "wb") as f:
             pickle.dump(files, f)
-        with open("json/"+str(files)+"uniswap_surface_rates.json","w") as fp:
+        with open("json/ethereum/"+str(files)+"uniswap_surface_rates.json","w") as fp:
             json.dump(surf_rate_list,fp)
             print("file saved")
 
@@ -153,7 +153,7 @@ def conect_to_pulsex(load_from_blockchain=True,min_rate=1.5,num_pairs=500):
             files=0
         with open(f"pkl/files.pkl", "wb") as f:
             pickle.dump(files, f)
-        with open("json/"+str(files)+"pulsex_surface_rates.json","w") as fp:
+        with open("json/pulse/"+str(files)+"pulsex_surface_rates.json","w") as fp:
             json.dump(surf_rate_list,fp)
             print("file saved")
 
