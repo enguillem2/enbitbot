@@ -50,13 +50,20 @@ def depth_pulse(file):
         tradeDesc2=t["tradeDesc2"]
         tradeDesc3=t["tradeDesc3"]
 
-
-        acquiredCoinT1=getPricePulse(pair1ContractAdress,amountIn=1,tradeDirection=trade1Direction)
+        inici=100
+        acquiredCoinT1=getPricePulse(pair1ContractAdress,amountIn=inici,tradeDirection=trade1Direction)
         acquiredCoinT2=getPricePulse(pair2ContractAdress,acquiredCoinT1,tradeDirection=trade2Direction)
         acquiredCoinT3=getPricePulse(pair3ContractAdress,acquiredCoinT2,tradeDirection=trade3Direction)
-        if (float(acquiredCoinT3)>float(1)):
-            print(f"1 {acquiredCoinT3}")
-            print(f"{tradeDesc1} {tradeDesc2} {tradeDesc3}")
+        if (float(acquiredCoinT3)>float(110)):
+            print(f"{inici} {acquiredCoinT1}")
+            print(f"{acquiredCoinT1} {acquiredCoinT2}")
+            print(f"{acquiredCoinT2} {acquiredCoinT3}")
+            print(f"tradeDesc1 {tradeDesc1}")
+            print(f"tradeDesc2 {tradeDesc2}")
+            print(f"tradeDesc3 {tradeDesc3}")
+            print(f"{swap1} {swap2} {swap3}")
+            print(f"POOLS: {pair1ContractAdress} {pair2ContractAdress} {pair3ContractAdress}")
+            print("_______________________________________________________")
 
 
     # Closing file
